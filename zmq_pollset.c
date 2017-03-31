@@ -308,17 +308,11 @@ int php_zmq_pollset_poll(php_zmq_pollset *set, int timeout, zval *r_array, zval 
 	zend_hash_clean(Z_ARRVAL(set->errors));
 
 	if (r_array && Z_TYPE_P(r_array) == IS_ARRAY) {
-		if (zend_hash_num_elements(Z_ARRVAL_P(r_array)) > 0) {
-			zend_hash_clean(Z_ARRVAL_P(r_array));
-		}
-		readable = 1;
+		ZVAL_NULL(r_array);
 	}
 
 	if (w_array && Z_TYPE_P(w_array) == IS_ARRAY) {
-		if (zend_hash_num_elements(Z_ARRVAL_P(w_array)) > 0) {
-			zend_hash_clean(Z_ARRVAL_P(w_array));
-		}
-		writable = 1;
+		ZVAL_NULL(w_array);
 	}
 
 	rc = zmq_poll(set->items, set->num_items, timeout);
